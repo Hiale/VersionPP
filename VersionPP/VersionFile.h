@@ -13,8 +13,7 @@ public:
 private:
 	void Read();
 	std::unique_ptr<std::fstream> file;
-	Version productVersion;
-	Version fileVersion;
-	Version version;
+	std::unique_ptr<Version> productVersion;
+	std::unique_ptr<Version> fileVersion;
 };
 

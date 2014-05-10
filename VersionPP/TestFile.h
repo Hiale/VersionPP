@@ -5,4 +5,4 @@
 
 // ProductVersion 1.2.3.4
 // FileVersion 1.2.3.4
-// Version
+// Version 1.2.*.

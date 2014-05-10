@@ -2,7 +2,6 @@
 //
 
 #include "stdafx.h"
-#include "DotNetVersion.h"
 #include "VersionFile.h"
 
 #include <fstream>
@@ -16,14 +15,14 @@ int main(int argc, char *argv[])
 
 	return 0;
 
-	boost::posix_time::ptime now = boost::posix_time::second_clock::local_time();
-	int build = 0;
-	int revision = 0;
-	DotNetVersion::CalculateBuildRevision(now, build, revision);
+	//boost::posix_time::ptime now = boost::posix_time::second_clock::local_time();
+	//unsigned int build = 0;
+	//unsigned int revision = 0;
+	//DotNetVersion::CalculateBuildRevision(now, build, revision);
 
-	boost::posix_time::ptime dt = DotNetVersion::CalculateBuildTime(5234, 3389);
+	//boost::posix_time::ptime dt = DotNetVersion::CalculateBuildTime(5234, 3389);
 
-	std::cout << dt;
+	//std::cout << dt;
 
 	if (argc < 2) {
 		std::cout << "Usage: " << argv[0] << " <filename> <arguments>" << std::endl;

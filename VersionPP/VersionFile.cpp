@@ -3,6 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include <regex>
+#include <boost/algorithm/string/predicate.hpp>
 
 VersionFile::VersionFile(std::string filename)
 {
@@ -28,6 +29,16 @@ void VersionFile::Read()
 		if (valid) {
 			std::string key = result[1];
 			std::string version = result[2];
+			if (boost::iequals(key, "ProductVersion")) {
+				productVersion = std::unique_ptr<Version>(new Version(version));
+			}
+			else if (boost::iequals(key, "FileVersion")) {
+				fileVersion = std::unique_ptr<Version>(new Version(version));
+			}
+			else if (boost::iequals(key, "Version")) {
+				productVersion = std::unique_ptr<Version>(new Version(version));
+				fileVersion = std::unique_ptr<Version>(new Version(version));
+			}			
 		}
 	}
 }

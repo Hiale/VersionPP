@@ -1,116 +1,90 @@
 #include "stdafx.h"
 #include "Version.h"
-#include <sstream>
+
+Version::Version(const std::string& str)
+{
+	parse(str);
+}
 
 Version::Version(const unsigned int major, const unsigned int minor, const unsigned int build, const unsigned int revision)
 {
-	setMajor(major);
-	setMinor(minor);
-	setBuild(build);
-	setRevision(revision);
+	setMajor(std::make_shared<VersionPart>(VersionPart(std::to_string(major))));
+	setMinor(std::make_shared<VersionPart>(VersionPart(std::to_string(minor))));
+	setBuild(std::make_shared<VersionPart>(VersionPart(std::to_string(build))));
+	setRevision(std::make_shared<VersionPart>(VersionPart(std::to_string(revision))));
 }
 
 Version::Version(const unsigned int major, const unsigned int minor, const unsigned int build) : Version(major, minor, build, 0) {}
 
 Version::Version(const unsigned int major, const unsigned int minor) : Version(major, minor, 0) {}
 
-Version::Version(const unsigned int major) : Version(major, 0) {}
+Version::Version(const unsigned int major) : Version(major, 0) { }
 
-Version::Version() : Version(0) {}
-
-Version::Version(const std::string& value)
-{
-	
-}
-
-
+Version::Version() : Version(0) { }
 
 Version::~Version()
 {
-
 }
 
-unsigned int Version::getMajor() const
+std::shared_ptr<VersionPart> Version::getMajor() const
 {
 	return major;
 }
 
-void Version::setMajor(const unsigned int value)
+void Version::setMajor(std::shared_ptr<VersionPart> value)
 {
 	major = value;
+
 }
 
-unsigned int Version::getMinor() const
+std::shared_ptr<VersionPart> Version::getMinor() const
 {
 	return minor;
+
 }
 
-void Version::setMinor(const unsigned int value)
+void Version::setMinor(std::shared_ptr<VersionPart> value)
 {
 	minor = value;
 }
 
-unsigned int Version::getBuild() const
+std::shared_ptr<VersionPart> Version::getBuild() const
 {
 	return build;
 }
 
-void Version::setBuild(const unsigned int value)
+void Version::setBuild(std::shared_ptr<VersionPart> value)
 {
 	build = value;
 }
 
-unsigned int Version::getRevision() const
+std::shared_ptr<VersionPart> Version::getRevision() const
 {
 	return revision;
 }
 
-void Version::setRevision(const unsigned int value)
+void Version::setRevision(std::shared_ptr<VersionPart> value)
 {
 	revision = value;
 }
 
-void Version::parse(const std::string& value)
+void Version::parse(const std::string& str)
 {
 	std::vector<std::string> elements;
-	split(value, '.', elements);
-	if (elements.size() > 0)
-	{
-		setMajor(getNumber(elements.at(0)));
-	}
-	if (elements.size() > 1)
-	{
-		setMajor(getNumber(elements.at(1)));
-	}
-	if (elements.size() > 2)
-	{
-		setBuild(getNumber(elements.at(2)));
-	}
-	if (elements.size() > 3)
-	{
-		setRevision(getNumber(elements.at(3)));
-	}
+	split(str, '.', elements);
+
+	while (elements.size() < 4)
+		elements.push_back("0");
+	setMajor(std::make_shared<VersionPart>(elements.at(0)));
+	setMinor(std::make_shared<VersionPart>(elements.at(1)));
+	setBuild(std::make_shared<VersionPart>(elements.at(2)));
+	setRevision(std::make_shared<VersionPart>(elements.at(3)));
 }
 
 void Version::split(const std::string& input, char delimiter, std::vector<std::string>& elements)
 {
 	std::stringstream stringStream(input);
 	std::string item;
-	while (std::getline(stringStream, item, delimiter)) {
+	while (std::getline(stringStream, item, delimiter))
 		elements.push_back(item);
-	}
-}
-
-unsigned int Version::getNumber(const std::string str)
-{
-	try
-	{
-		return std::stoul(str);
-	}
-	catch (std::exception& e)
-	{
-		return 0;
-	}
-	
-
 }
