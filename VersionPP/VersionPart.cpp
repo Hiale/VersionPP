@@ -4,11 +4,15 @@
 #include <cctype>
 
 
-VersionPart::VersionPart(const std::string& value)
+VersionPart::VersionPart(const std::string& value) : final(false), finalValue(0)
 {
-	final = false;
-	finalValue = 0;
 	setStringValue(value);
+}
+
+VersionPart::VersionPart(const unsigned int value)
+{
+	stringValue = std::to_string(value);
+	setFinalValue(value);
 }
 
 VersionPart::~VersionPart()

@@ -2,7 +2,7 @@
 
 #include <vector>
 #include <memory>
-#include "ITransformer.h"
+#include "Transformer.h"
 #include "Version.h"
 
 class TransformerManager
@@ -13,6 +13,6 @@ public:
 	bool Transform(Version& version);
 private:
 	void load();
-	std::vector<std::unique_ptr<ITransformer>> items;
+	std::vector<std::unique_ptr<Transformer>> items;
 };
 

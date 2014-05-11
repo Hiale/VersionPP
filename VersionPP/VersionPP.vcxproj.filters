@@ -30,9 +30,6 @@
     <ClInclude Include="VersionPart.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ITransformer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="DotNetTransformer.h">
       <Filter>Header Files</Filter>
     </ClInclude>

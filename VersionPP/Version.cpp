@@ -9,10 +9,10 @@ Version::Version(const std::string& str)
 
 Version::Version(const unsigned int major, const unsigned int minor, const unsigned int build, const unsigned int revision)
 {
-	setMajor(std::make_shared<VersionPart>(VersionPart(std::to_string(major))));
-	setMinor(std::make_shared<VersionPart>(VersionPart(std::to_string(minor))));
-	setBuild(std::make_shared<VersionPart>(VersionPart(std::to_string(build))));
-	setRevision(std::make_shared<VersionPart>(VersionPart(std::to_string(revision))));
+	setMajor(std::make_shared<VersionPart>(VersionPart(major)));
+	setMinor(std::make_shared<VersionPart>(VersionPart(minor)));
+	setBuild(std::make_shared<VersionPart>(VersionPart(build)));
+	setRevision(std::make_shared<VersionPart>(VersionPart(revision)));
 }
 
 Version::Version(const unsigned int major, const unsigned int minor, const unsigned int build) : Version(major, minor, build, 0) {}
@@ -80,7 +80,8 @@ void Version::parse(const std::string& str)
 	setRevision(std::make_shared<VersionPart>(elements.at(3)));
 
 	while (!isFinished()) {
-		transformerManager->Transform(*this);
+		if (!transformerManager->Transform(*this))
+			break;
 	}
 }
 

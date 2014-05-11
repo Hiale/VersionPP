@@ -14,7 +14,7 @@ TransformerManager::~TransformerManager()
 bool TransformerManager::Transform(Version& version)
 {
 	bool processed = false; //at least one transformer processed the version.
-	for (const std::unique_ptr<ITransformer>& transformer : items) {
+	for (const std::unique_ptr<Transformer>& transformer : items) {
 		if (!version.containsIdentifier(transformer->getIdentifier()))
 			continue;
 		if (transformer->Transform(version))
@@ -25,5 +25,5 @@ bool TransformerManager::Transform(Version& version)
 
 void TransformerManager::load()
 {
-	items.push_back(std::unique_ptr<ITransformer>(new DotNetTransformer));
+	items.push_back(std::unique_ptr<Transformer>(new DotNetTransformer));
 }

@@ -1,8 +1,8 @@
 #pragma once
 
-#include "ITransformer.h"
+#include "Version.h"
 
-class Transformer : public ITransformer
+class Transformer
 {
 public:
 	virtual ~Transformer();

@@ -6,6 +6,7 @@ class VersionPart
 {
 public:
 	VersionPart(const std::string& value);
+	VersionPart(const unsigned int value);
 	virtual ~VersionPart();
 	unsigned int getFinalValue() const;	
 	std::string getStringValue() const;
