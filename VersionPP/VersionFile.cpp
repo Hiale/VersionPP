@@ -21,7 +21,7 @@ VersionFile::~VersionFile()
 void VersionFile::Read()
 {
 	std::string line;
-	std::regex pattern("\\/\\/ *(\\b.+\\b) +(\\b.+\\b)", std::regex_constants::icase);
+	std::regex pattern("\\/\\/ *([^\\s]+) +([^\\s]+)", std::regex_constants::icase);
 	while (std::getline(*file, line))
 	{
 		std::match_results<std::string::const_iterator> result;

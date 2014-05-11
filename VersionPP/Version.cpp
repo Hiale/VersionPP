@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Version.h"
+#include "VersionPP.h"
 
 Version::Version(const std::string& str)
 {
@@ -34,13 +35,11 @@ std::shared_ptr<VersionPart> Version::getMajor() const
 void Version::setMajor(std::shared_ptr<VersionPart> value)
 {
 	major = value;
-
 }
 
 std::shared_ptr<VersionPart> Version::getMinor() const
 {
 	return minor;
-
 }
 
 void Version::setMinor(std::shared_ptr<VersionPart> value)
@@ -79,6 +78,10 @@ void Version::parse(const std::string& str)
 	setMinor(std::make_shared<VersionPart>(elements.at(1)));
 	setBuild(std::make_shared<VersionPart>(elements.at(2)));
 	setRevision(std::make_shared<VersionPart>(elements.at(3)));
+
+	while (!isFinished()) {
+		transformerManager->Transform(*this);
+	}
 }
 
 void Version::split(const std::string& input, char delimiter, std::vector<std::string>& elements)
@@ -87,4 +90,17 @@ void Version::split(const std::string& input, char delimiter, std::vector<std::s
 	std::string item;
 	while (std::getline(stringStream, item, delimiter))
 		elements.push_back(item);
+}
+
+bool Version::isFinished()
+{
+	return major && major->isFinal() && minor && minor->isFinal() && build && build->isFinal() && revision && revision->isFinal();
+}
+
+bool Version::containsIdentifier(const std::string& identifier) const
+{
+	return	(major && major->getStringValue().find(identifier) != std::string::npos) ||
+			(minor && minor->getStringValue().find(identifier) != std::string::npos) ||
+			(build && build->getStringValue().find(identifier) != std::string::npos) ||
+			(revision && revision->getStringValue().find(identifier) != std::string::npos);
 }

@@ -2,14 +2,20 @@
 //
 
 #include "stdafx.h"
+#include "VersionPP.h"
 #include "VersionFile.h"
+#include "TransformerManager.h"
 
 #include <fstream>
 #include <iostream>
 
+std::unique_ptr<TransformerManager> transformerManager;
+
 int main(int argc, char *argv[])
 {
 	std::cout << "Version++, Version 0.1" << std::endl << "Copyright © 2014 Hiale" << std::endl;
+
+	transformerManager = std::unique_ptr<TransformerManager>(new TransformerManager);
 
 	VersionFile inputFile("S:\\Visual Studio Projects\\VersionPP\\VersionPP\\TestFile.h");
 

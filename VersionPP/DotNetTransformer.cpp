@@ -21,14 +21,15 @@ std::string DotNetTransformer::getIdentifier() const
 	return "*";
 }
 
-void DotNetTransformer::Transform(Version& version)
+bool DotNetTransformer::Transform(Version& version)
 {
 	boost::posix_time::ptime now = boost::posix_time::second_clock::local_time();
 	unsigned int build = 0;
 	unsigned int revision = 0;
 	CalculateBuildRevision(now, build, revision);
-	version.getBuild()->setFinalValue(build);
-	version.getRevision()->setFinalValue(revision);
+	if (replaceIdentifier(*version.getBuild(), std::to_string(build)))
+		version.getRevision()->setStringValue(std::to_string(revision));
+	return true;
 }
 
 void DotNetTransformer::CalculateBuildRevision(const boost::posix_time::ptime& dateTime, unsigned int& build, unsigned int& revision)

@@ -6,9 +6,9 @@
 
 VersionPart::VersionPart(const std::string& value)
 {
-	stringValue = value;
-	if (isNumber(value))
-		setFinalValue(getNumber(stringValue));	
+	final = false;
+	finalValue = 0;
+	setStringValue(value);
 }
 
 VersionPart::~VersionPart()
@@ -30,6 +30,13 @@ void VersionPart::setFinalValue(const unsigned int value)
 std::string VersionPart::getStringValue() const
 {
 	return stringValue;
+}
+
+void VersionPart::setStringValue(const std::string& value)
+{
+	stringValue = value;
+	if (isNumber(value))
+		setFinalValue(getNumber(stringValue));
 }
 
 bool VersionPart::isFinal() const
