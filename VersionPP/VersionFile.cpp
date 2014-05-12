@@ -24,6 +24,7 @@ void VersionFile::Read()
 {
 	std::string line;
 	std::regex pattern("(#[^\\S\\n]*define|\\/\\/)[^\\S\\n]([^\\s]+)[^\\S\\n]+([^\\s]+)", std::regex_constants::icase);
+	unsigned int lineNo = 0;
 	while (std::getline(*file, line))
 	{
 		std::match_results<std::string::const_iterator> result;
@@ -34,22 +35,31 @@ void VersionFile::Read()
 			std::string keyUpper = boost::to_upper_copy(key);
 			std::string version = result[3];
 			if (boost::starts_with(prefix, "#") && boost::iequals(keyUpper, "PRODUCT_VERSION")) {
-				currentProductVersion = std::unique_ptr<Version>(new Version(version));
+				currentProductVersion = std::unique_ptr<VersionFileItem>(new VersionFileItem(version, lineNo));
 			}
 			else if (boost::starts_with(prefix, "#") && boost::iequals(keyUpper, "FILE_VERSION")) {
-				currentFileVersion = std::unique_ptr<Version>(new Version(version));
+				currentFileVersion = std::unique_ptr<VersionFileItem>(new VersionFileItem(version, lineNo));
 			}
 			else if (boost::starts_with(prefix, "//") && boost::iequals(keyUpper, "PRODUCTVERSION")) {
-				productVersion = std::unique_ptr<Version>(new Version(version));
+				productVersion = std::unique_ptr<VersionFileItem>(new VersionFileItem(version, lineNo));
 			}
 			else if (boost::starts_with(prefix, "//") && boost::iequals(keyUpper, "FILEVERSION")) {
-				fileVersion = std::unique_ptr<Version>(new Version(version));
+				fileVersion = std::unique_ptr<VersionFileItem>(new VersionFileItem(version, lineNo));
 			}
 			else if (boost::starts_with(prefix, "//") && boost::iequals(keyUpper, "VERSION")) {
-				productVersion = std::unique_ptr<Version>(new Version(version));
-				fileVersion = std::unique_ptr<Version>(new Version(version));
+				if (productVersion) {
+					//ToDo: warning
+				}
+				else 
+					productVersion = std::unique_ptr<VersionFileItem>(new VersionFileItem(version, lineNo));
+				if (fileVersion) {
+					//ToDo: warning
+				}
+				else
+					fileVersion = std::unique_ptr<VersionFileItem>(new VersionFileItem(version, lineNo));
 			}			
 		}
+		lineNo++;
 	}
 }
 

@@ -2,7 +2,7 @@
 
 #include <string>
 #include <memory>
-#include "Version.h"
+#include "VersionFileItem.h"
 
 class VersionFile
 {
@@ -13,9 +13,9 @@ public:
 private:
 	void Read();
 	std::unique_ptr<std::fstream> file;
-	std::unique_ptr<Version> currentProductVersion;
-	std::unique_ptr<Version> currentFileVersion;
-	std::unique_ptr<Version> productVersion;
-	std::unique_ptr<Version> fileVersion;
+	std::unique_ptr<VersionFileItem> currentProductVersion;
+	std::unique_ptr<VersionFileItem> currentFileVersion;
+	std::unique_ptr<VersionFileItem> productVersion;
+	std::unique_ptr<VersionFileItem> fileVersion;
 };
 

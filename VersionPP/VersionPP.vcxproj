@@ -85,6 +85,7 @@
     <ClInclude Include="TransformerManager.h" />
     <ClInclude Include="Version.h" />
     <ClInclude Include="VersionFile.h" />
+    <ClInclude Include="VersionFileItem.h" />
     <ClInclude Include="VersionPart.h" />
     <ClInclude Include="VersionPP.h" />
   </ItemGroup>
@@ -98,6 +99,7 @@
     <ClCompile Include="TransformerManager.cpp" />
     <ClCompile Include="Version.cpp" />
     <ClCompile Include="VersionFile.cpp" />
+    <ClCompile Include="VersionFileItem.cpp" />
     <ClCompile Include="VersionPart.cpp" />
     <ClCompile Include="VersionPP.cpp" />
   </ItemGroup>
