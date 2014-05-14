@@ -19,6 +19,8 @@ int main(int argc, char *argv[])
 
 	VersionFile inputFile("S:\\Visual Studio Projects\\VersionPP\\VersionPP\\TestFile.h");
 
+	//transformerManager->Transform(inputFile.
+
 	return 0;
 
 	//boost::posix_time::ptime now = boost::posix_time::second_clock::local_time();

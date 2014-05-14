@@ -12,7 +12,7 @@ public:
 	DotNetTransformer();
 	~DotNetTransformer();
 	virtual std::string getIdentifier() const;
-	virtual bool Transform(Version& version);
+	virtual bool Transform(Version& version, const Version& currentVersion);
 private:
 	static void CalculateBuildRevision(const boost::posix_time::ptime& time, unsigned int& build, unsigned int& revision);
 	static boost::posix_time::ptime CalculateBuildTime(const unsigned int build, const unsigned int revision);

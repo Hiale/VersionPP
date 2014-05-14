@@ -70,7 +70,12 @@ void Version::setRevision(std::shared_ptr<VersionPart> value)
 void Version::parse(const std::string& str)
 {
 	std::vector<std::string> elements;
-	split(str, '.', elements);
+	if (str.find(".") != std::string::npos)
+		split(str, '.', elements);
+	else if (str.find(",") != std::string::npos)
+		split(str, ',', elements);
+	else
+		throw std::exception("Not a valid version format.");
 
 	while (elements.size() < 4)
 		elements.push_back("0");
@@ -79,10 +84,10 @@ void Version::parse(const std::string& str)
 	setBuild(std::make_shared<VersionPart>(elements.at(2)));
 	setRevision(std::make_shared<VersionPart>(elements.at(3)));
 
-	while (!isFinished()) {
+	/*while (!isFinished()) {
 		if (!transformerManager->Transform(*this))
 			break;
-	}
+	}*/
 }
 
 void Version::split(const std::string& input, char delimiter, std::vector<std::string>& elements)

@@ -9,9 +9,17 @@ class VersionFile
 public:
 	VersionFile(std::string filename);	
 	~VersionFile();
-	void Write();
+	void write();
+	Version& getCurrentProductVersion() const;
+	Version& getCurrentFileVersion() const;
+	Version& getProductVersion() const;
+	Version& getFileVersion() const;
 private:
-	void Read();
+	bool read();
+	void prepareRead();
+	bool checkVariable(std::unique_ptr<VersionFileItem>& targetItem, std::string& variableName);	
+	bool createVersionFileItem(std::unique_ptr<VersionFileItem>& targetItem, std::string& variableName, std::string& versionValue, unsigned int lineNo);
+	void throwInvalidFile() const;
 	std::unique_ptr<std::fstream> file;
 	std::unique_ptr<VersionFileItem> currentProductVersion;
 	std::unique_ptr<VersionFileItem> currentFileVersion;

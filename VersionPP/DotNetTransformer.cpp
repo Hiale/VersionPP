@@ -21,7 +21,7 @@ std::string DotNetTransformer::getIdentifier() const
 	return "*";
 }
 
-bool DotNetTransformer::Transform(Version& version)
+bool DotNetTransformer::Transform(Version& version, const Version& currentVersion)
 {
 	boost::posix_time::ptime now = boost::posix_time::second_clock::local_time();
 	unsigned int build = 0;
