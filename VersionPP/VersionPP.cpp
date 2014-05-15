@@ -19,7 +19,8 @@ int main(int argc, char *argv[])
 
 	VersionFile inputFile("S:\\Visual Studio Projects\\VersionPP\\VersionPP\\TestFile.h");
 
-	//transformerManager->Transform(inputFile.
+	transformerManager->Transform(inputFile.getProductVersion(), inputFile.getCurrentProductVersion());
+	transformerManager->Transform(inputFile.getFileVersion(), inputFile.getCurrentFileVersion());
 
 	return 0;
 

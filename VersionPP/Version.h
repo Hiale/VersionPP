@@ -15,14 +15,14 @@ public:
 	Version(const unsigned int major, const unsigned int minor);
 	Version(const unsigned int major);
 	virtual ~Version();
-	std::shared_ptr<VersionPart> getMajor() const;
-	void setMajor(std::shared_ptr<VersionPart> value);
-	std::shared_ptr<VersionPart> getMinor() const;
-	void setMinor(std::shared_ptr<VersionPart> value);
-	std::shared_ptr<VersionPart> getBuild() const;
-	void setBuild(std::shared_ptr<VersionPart> value);
-	std::shared_ptr<VersionPart> getRevision() const;
-	void setRevision(std::shared_ptr<VersionPart> value);
+	VersionPart& getMajor() const;
+	void setMajor(const VersionPart& value);
+	VersionPart& getMinor() const;
+	void setMinor(const VersionPart& value);
+	VersionPart& getBuild() const;
+	void setBuild(const VersionPart& value);
+	VersionPart& getRevision() const;
+	void setRevision(const VersionPart& value);
 	bool containsIdentifier(const std::string& identifier) const;
 private:
 	void parse(const std::string& str);

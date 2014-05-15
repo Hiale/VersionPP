@@ -27,8 +27,8 @@ bool DotNetTransformer::Transform(Version& version, const Version& currentVersio
 	unsigned int build = 0;
 	unsigned int revision = 0;
 	CalculateBuildRevision(now, build, revision);
-	if (replaceIdentifier(*version.getBuild(), std::to_string(build)))
-		version.getRevision()->setStringValue(std::to_string(revision));
+	if (replaceIdentifier(version.getBuild(), std::to_string(build)))
+		version.getRevision().setStringValue(std::to_string(revision));
 	return true;
 }
 

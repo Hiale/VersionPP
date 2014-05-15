@@ -9,10 +9,10 @@ Version::Version(const std::string& str)
 
 Version::Version(const unsigned int major, const unsigned int minor, const unsigned int build, const unsigned int revision)
 {
-	setMajor(std::make_shared<VersionPart>(VersionPart(major)));
-	setMinor(std::make_shared<VersionPart>(VersionPart(minor)));
-	setBuild(std::make_shared<VersionPart>(VersionPart(build)));
-	setRevision(std::make_shared<VersionPart>(VersionPart(revision)));
+	setMajor(VersionPart(major));
+	setMinor(VersionPart(minor));
+	setBuild(VersionPart(build));
+	setRevision(VersionPart(revision));
 }
 
 Version::Version(const unsigned int major, const unsigned int minor, const unsigned int build) : Version(major, minor, build, 0) {}
@@ -27,44 +27,44 @@ Version::~Version()
 {
 }
 
-std::shared_ptr<VersionPart> Version::getMajor() const
+VersionPart& Version::getMajor() const
 {
-	return major;
+	return *major;
 }
 
-void Version::setMajor(std::shared_ptr<VersionPart> value)
+void Version::setMajor(const VersionPart& value)
 {
-	major = value;
+	major = std::unique_ptr<VersionPart>(new VersionPart(value));
 }
 
-std::shared_ptr<VersionPart> Version::getMinor() const
+VersionPart& Version::getMinor() const
 {
-	return minor;
+	return *minor;
 }
 
-void Version::setMinor(std::shared_ptr<VersionPart> value)
+void Version::setMinor(const VersionPart& value)
 {
-	minor = value;
+	minor = std::unique_ptr<VersionPart>(new VersionPart(value));
 }
 
-std::shared_ptr<VersionPart> Version::getBuild() const
+VersionPart& Version::getBuild() const
 {
-	return build;
+	return *build;
 }
 
-void Version::setBuild(std::shared_ptr<VersionPart> value)
+void Version::setBuild(const VersionPart& value)
 {
-	build = value;
+	build = std::unique_ptr<VersionPart>(new VersionPart(value));
 }
 
-std::shared_ptr<VersionPart> Version::getRevision() const
+VersionPart& Version::getRevision() const
 {
-	return revision;
+	return *revision;
 }
 
-void Version::setRevision(std::shared_ptr<VersionPart> value)
+void Version::setRevision(const VersionPart& value)
 {
-	revision = value;
+	revision = std::unique_ptr<VersionPart>(new VersionPart(value));
 }
 
 void Version::parse(const std::string& str)
@@ -79,10 +79,10 @@ void Version::parse(const std::string& str)
 
 	while (elements.size() < 4)
 		elements.push_back("0");
-	setMajor(std::make_shared<VersionPart>(elements.at(0)));
-	setMinor(std::make_shared<VersionPart>(elements.at(1)));
-	setBuild(std::make_shared<VersionPart>(elements.at(2)));
-	setRevision(std::make_shared<VersionPart>(elements.at(3)));
+	setMajor(VersionPart(elements.at(0)));
+	setMinor(VersionPart(elements.at(1)));
+	setBuild(VersionPart(elements.at(2)));
+	setRevision(VersionPart(elements.at(3)));
 
 	/*while (!isFinished()) {
 		if (!transformerManager->Transform(*this))

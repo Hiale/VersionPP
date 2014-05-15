@@ -55,14 +55,14 @@ bool VersionFile::read()
 			}
 			else if (boost::starts_with(prefix, "//") && boost::iequals(variableNameUpper, "VERSION")) {
 				if (productVersion) {
-					std::cout << "The variable " << variableName << " is ignored because the version is already defined.";
+					std::cout << "The variable '" << variableName << "' is ignored because the product version is already defined." << std::endl;
 				}
 				else {
 					if (!createVersionFileItem(productVersion, variableName, versionValue, lineNo))
 						return false;
 				}
 				if (fileVersion) {
-					std::cout << "The variable " << variableName << " is ignored because the version is already defined.";
+					std::cout << "The variable '" << variableName << "' is ignored because the file version is already defined." << std::endl;
 				}
 				else {
 					if (!createVersionFileItem(fileVersion, variableName, versionValue, lineNo))
