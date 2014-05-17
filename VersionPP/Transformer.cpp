@@ -6,6 +6,14 @@ Transformer::~Transformer()
 {
 }
 
+bool Transformer::identifierFound(VersionPart& versionPart)
+{
+	size_t start_pos = versionPart.getStringValue().find(getIdentifier());
+	if (start_pos == std::string::npos)
+		return false;
+	return true;
+}
+
 bool Transformer::replace(std::string& str, const std::string& from, const std::string& to)
 {
 	size_t start_pos = str.find(from);

@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "TransformerManager.h"
 #include "DotNetTransformer.h"
+#include "IncrementTransformer.h"
 
 TransformerManager::TransformerManager()
 {
@@ -26,4 +27,5 @@ bool TransformerManager::Transform(Version& version, const Version& currentVersi
 void TransformerManager::load()
 {
 	items.push_back(std::unique_ptr<Transformer>(new DotNetTransformer));
+	items.push_back(std::unique_ptr<Transformer>(new IncrementTransformer));
 }

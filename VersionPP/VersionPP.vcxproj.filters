@@ -45,6 +45,9 @@
     <ClInclude Include="VersionFileItem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="IncrementTransformer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -72,6 +75,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="VersionFileItem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IncrementTransformer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

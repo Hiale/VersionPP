@@ -9,13 +9,13 @@ class VersionFile
 public:
 	VersionFile(std::string filename);	
 	~VersionFile();
-	void write();
+	bool read();
+	bool write();
 	Version& getCurrentProductVersion() const;
 	Version& getCurrentFileVersion() const;
 	Version& getProductVersion() const;
 	Version& getFileVersion() const;
-private:
-	bool read();
+private:	
 	void prepareRead();
 	bool checkVariable(std::unique_ptr<VersionFileItem>& targetItem, std::string& variableName);	
 	bool createVersionFileItem(std::unique_ptr<VersionFileItem>& targetItem, std::string& variableName, std::string& versionValue, unsigned int lineNo);

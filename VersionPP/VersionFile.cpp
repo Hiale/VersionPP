@@ -12,8 +12,6 @@ VersionFile::VersionFile(std::string filename)
 {
 	file = std::unique_ptr<std::fstream>(new std::fstream);
 	file->open(filename.c_str(), std::ios::in | std::ios::out);
-	if (file->good())
-		read();
 }
 
 VersionFile::~VersionFile()
@@ -23,6 +21,8 @@ VersionFile::~VersionFile()
 
 bool VersionFile::read()
 {
+	if (!file->good())
+		return false;
 	prepareRead();
 	std::string line;
 	std::regex pattern("(#[^\\S\\n]*define|\\/\\/)[^\\S\\n]([^\\s]+)[^\\S\\n]+([^\\s]+)", std::regex_constants::icase);
@@ -85,9 +85,10 @@ bool VersionFile::read()
 	return true;
 }
 
-void VersionFile::write()
+bool VersionFile::write()
 {
 
+	return true;
 }
 
 bool VersionFile::createVersionFileItem(std::unique_ptr<VersionFileItem>& targetItem, std::string& variableName, std::string& versionValue, unsigned int lineNo)

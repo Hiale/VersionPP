@@ -18,9 +18,14 @@ int main(int argc, char *argv[])
 	transformerManager = std::unique_ptr<TransformerManager>(new TransformerManager);
 
 	VersionFile inputFile("S:\\Visual Studio Projects\\VersionPP\\VersionPP\\TestFile.h");
+	if (!inputFile.read())
+		return -1;
 
 	transformerManager->Transform(inputFile.getProductVersion(), inputFile.getCurrentProductVersion());
 	transformerManager->Transform(inputFile.getFileVersion(), inputFile.getCurrentFileVersion());
+
+	if (!inputFile.write())
+		return 1;
 
 	return 0;
 
