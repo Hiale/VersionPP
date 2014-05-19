@@ -6,10 +6,10 @@ class IncrementTransformer : public Transformer
 {
 public:
 	IncrementTransformer();
-	~IncrementTransformer();
-	virtual std::string getIdentifier() const;
+	virtual ~IncrementTransformer();
+	virtual std::string getIdentifier() const = 0;
 	virtual bool Transform(Version& version, const Version& currentVersion);
-
-	void processPart(VersionPart& newPart, VersionPart& currentPart, VersionPart& priorPart, VersionPart& currentPriorPart);
+private:
+	inline virtual void processPart(VersionPart& newPart, VersionPart& currentPart, VersionPart& priorPart, VersionPart& currentPriorPart) = 0;
 };
 

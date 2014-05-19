@@ -21,8 +21,10 @@ int main(int argc, char *argv[])
 	if (!inputFile.read())
 		return -1;
 
-	transformerManager->Transform(inputFile.getProductVersion(), inputFile.getCurrentProductVersion());
-	transformerManager->Transform(inputFile.getFileVersion(), inputFile.getCurrentFileVersion());
+	while (transformerManager->Transform(inputFile.getProductVersion(), inputFile.getCurrentProductVersion())) {
+	}
+	while (transformerManager->Transform(inputFile.getFileVersion(), inputFile.getCurrentFileVersion())) {
+	}
 
 	if (!inputFile.write())
 		return 1;

@@ -45,7 +45,13 @@
     <ClInclude Include="VersionFileItem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="IncrementResetTransformer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="IncrementTransformer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IncrementAlwaysTransformer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -77,7 +83,13 @@
     <ClCompile Include="VersionFileItem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="IncrementResetTransformer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="IncrementTransformer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IncrementAlwaysTransformer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
