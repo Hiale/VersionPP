@@ -15,6 +15,7 @@ public:
 	Version(const unsigned int major, const unsigned int minor);
 	Version(const unsigned int major);
 	virtual ~Version();
+	std::string ToString() const;
 	VersionPart& getMajor() const;
 	void setMajor(const VersionPart& value);
 	VersionPart& getMinor() const;

@@ -110,3 +110,8 @@ bool Version::containsIdentifier(const std::string& identifier) const
 			(build && build->getStringValue().find(identifier) != std::string::npos) ||
 			(revision && revision->getStringValue().find(identifier) != std::string::npos);
 }
+
+std::string Version::ToString() const
+{
+	return major->getStringValue() + "." + minor->getStringValue() + "." + build->getStringValue() + "." + revision->getStringValue();
+}

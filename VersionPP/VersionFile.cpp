@@ -8,27 +8,27 @@
 #include <iostream>
 #include <boost/algorithm/string.hpp>
 
-VersionFile::VersionFile(std::string filename)
-{
-	file = std::unique_ptr<std::fstream>(new std::fstream);
-	file->open(filename.c_str(), std::ios::in | std::ios::out);
+VersionFile::VersionFile(std::string filename) : filename(filename), fileContent()
+{	
 }
 
 VersionFile::~VersionFile()
 {
-	file->close();
 }
 
 bool VersionFile::read()
 {
-	if (!file->good())
+	std::ifstream file;
+	file.open(filename.c_str());
+	if (!file.good())
 		return false;
 	prepareRead();
 	std::string line;
 	std::regex pattern("(#[^\\S\\n]*define|\\/\\/)[^\\S\\n]([^\\s]+)[^\\S\\n]+([^\\s]+)", std::regex_constants::icase);
-	unsigned int lineNo = 0;
-	while (std::getline(*file, line))
+	unsigned int lineNumber = 0;
+	while (std::getline(file, line))
 	{
+		fileContent.push_back(line);
 		std::match_results<std::string::const_iterator> result;
 		bool valid = std::regex_search(line, result, pattern);
 		if (valid) {
@@ -38,19 +38,25 @@ bool VersionFile::read()
 			std::string versionValue = result[3];
 
 			if (boost::starts_with(prefix, "#") && boost::iequals(variableNameUpper, "PRODUCT_VERSION")) {
-				if (!createVersionFileItem(currentProductVersion, variableName, versionValue, lineNo))
+				if (!createVersionFileItem(currentProductVersion, variableName, versionValue, lineNumber))
 					return false;
 			}
 			else if (boost::starts_with(prefix, "#") && boost::iequals(variableNameUpper, "FILE_VERSION")) {
-				if (!createVersionFileItem(currentFileVersion, variableName, versionValue, lineNo))
+				if (!createVersionFileItem(currentFileVersion, variableName, versionValue, lineNumber))
 					return false;
 			}
+			else if (boost::starts_with(prefix, "#") && boost::iequals(variableNameUpper, "PRODUCT_VERSION_STRING")) {
+				currentProductVersionString = std::unique_ptr<VersionFileItem>(new VersionFileItem(versionValue, lineNumber, false));
+			}
+			else if (boost::starts_with(prefix, "#") && boost::iequals(variableNameUpper, "FILE_VERSION_STRING")) {
+				currentFileVersionString = std::unique_ptr<VersionFileItem>(new VersionFileItem(versionValue, lineNumber, false));
+			}
 			else if (boost::starts_with(prefix, "//") && boost::iequals(variableNameUpper, "PRODUCTVERSION")) {
-				if (!createVersionFileItem(productVersion, variableName, versionValue, lineNo))
+				if (!createVersionFileItem(productVersion, variableName, versionValue, lineNumber))
 					return false;
 			}
 			else if (boost::starts_with(prefix, "//") && boost::iequals(variableNameUpper, "FILEVERSION")) {
-				if (!createVersionFileItem(fileVersion, variableName, versionValue, lineNo))
+				if (!createVersionFileItem(fileVersion, variableName, versionValue, lineNumber))
 					return false;
 			}
 			else if (boost::starts_with(prefix, "//") && boost::iequals(variableNameUpper, "VERSION")) {
@@ -58,19 +64,19 @@ bool VersionFile::read()
 					std::cout << "The variable '" << variableName << "' is ignored because the product version is already defined." << std::endl;
 				}
 				else {
-					if (!createVersionFileItem(productVersion, variableName, versionValue, lineNo))
+					if (!createVersionFileItem(productVersion, variableName, versionValue, lineNumber))
 						return false;
 				}
 				if (fileVersion) {
 					std::cout << "The variable '" << variableName << "' is ignored because the file version is already defined." << std::endl;
 				}
 				else {
-					if (!createVersionFileItem(fileVersion, variableName, versionValue, lineNo))
+					if (!createVersionFileItem(fileVersion, variableName, versionValue, lineNumber))
 						return false;
 				}
 			}
 		}
-		lineNo++;
+		lineNumber++;
 	}
 
 	if (!checkVariable(currentProductVersion, std::string("PRODUCT_VERSION")))
@@ -87,14 +93,23 @@ bool VersionFile::read()
 
 bool VersionFile::write()
 {
+	std::ofstream file;
+	file.open(filename.c_str(), std::ios::trunc);
+	if (!file.good())
+		return false;
 
+	for (std::vector<std::string>::size_type i = 0; i != fileContent.size(); i++) {
+		file << fileContent[i];
+		if (i < fileContent.size() - 1)
+			file << std::endl;
+	}
 	return true;
 }
 
-bool VersionFile::createVersionFileItem(std::unique_ptr<VersionFileItem>& targetItem, std::string& variableName, std::string& versionValue, unsigned int lineNo)
+bool VersionFile::createVersionFileItem(std::unique_ptr<VersionFileItem>& targetItem, std::string& variableName, std::string& versionValue, unsigned int lineNumber)
 {
 	try {
-		targetItem = std::unique_ptr<VersionFileItem>(new VersionFileItem(versionValue, lineNo));
+		targetItem = std::unique_ptr<VersionFileItem>(new VersionFileItem(versionValue, lineNumber));
 	}
 	catch (...) {
 		std::cout << "Variable " << variableName << " has an invalid format.";
@@ -105,6 +120,7 @@ bool VersionFile::createVersionFileItem(std::unique_ptr<VersionFileItem>& target
 
 void VersionFile::prepareRead()
 {
+	fileContent.clear();
 	currentProductVersion.reset();
 	currentFileVersion.reset();
 	productVersion.reset();
@@ -151,4 +167,16 @@ Version& VersionFile::getFileVersion() const
 void VersionFile::throwInvalidFile() const
 {
 	throw std::exception("Load file first or file is invalid.");
+}
+
+void VersionFile::setCurrentProductVersionString(std::string& value)
+{
+	if (currentProductVersionString)
+		currentProductVersionString->setReplacementValue("\"" + value + "\"");
+}
+
+void VersionFile::setCurrentFileVersionString(std::string& value)
+{
+	if (currentFileVersionString)
+		currentFileVersionString->setReplacementValue("\"" + value + "\"");
 }
