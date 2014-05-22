@@ -1,11 +1,11 @@
 #include "stdafx.h"
 #include "VersionFileItem.h"
 
-VersionFileItem::VersionFileItem(std::string& versionValue, unsigned int lineNumber) : VersionFileItem(versionValue, lineNumber, true)
+VersionFileItem::VersionFileItem(std::string& versionValue, unsigned int lineNumber, unsigned int linePosition) : VersionFileItem(versionValue, lineNumber, linePosition, true)
 {	
 }
 
-VersionFileItem::VersionFileItem(std::string& versionValue, unsigned int lineNumber, bool createVersion) : versionValue(versionValue), lineNumber(lineNumber)
+VersionFileItem::VersionFileItem(std::string& versionValue, unsigned int lineNumber, unsigned int linePosition, bool createVersion) : versionValue(versionValue), lineNumber(lineNumber), linePosition(linePosition)
 {
 	if (createVersion)
 		version = std::unique_ptr<Version>(new Version(versionValue));
