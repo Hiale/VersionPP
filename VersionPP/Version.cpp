@@ -15,9 +15,9 @@ Version::Version(const unsigned int major, const unsigned int minor, const unsig
 	setRevision(VersionPart(revision));
 }
 
-Version::Version(const unsigned int major, const unsigned int minor, const unsigned int build) : Version(major, minor, build, 0) {}
+Version::Version(const unsigned int major, const unsigned int minor, const unsigned int build) : Version(major, minor, build, 0) { }
 
-Version::Version(const unsigned int major, const unsigned int minor) : Version(major, minor, 0) {}
+Version::Version(const unsigned int major, const unsigned int minor) : Version(major, minor, 0) { }
 
 Version::Version(const unsigned int major) : Version(major, 0) { }
 
@@ -71,11 +71,12 @@ void Version::parse(const std::string& str)
 {
 	std::vector<std::string> elements;
 	if (str.find(".") != std::string::npos)
-		split(str, '.', elements);
+		delimiter = ".";
 	else if (str.find(",") != std::string::npos)
-		split(str, ',', elements);
+		delimiter = ",";
 	else
 		throw std::exception("Not a valid version format.");
+	split(str, delimiter[0], elements);
 
 	while (elements.size() < 4)
 		elements.push_back("0");
@@ -83,11 +84,6 @@ void Version::parse(const std::string& str)
 	setMinor(VersionPart(elements.at(1)));
 	setBuild(VersionPart(elements.at(2)));
 	setRevision(VersionPart(elements.at(3)));
-
-	/*while (!isFinished()) {
-		if (!transformerManager->Transform(*this))
-			break;
-	}*/
 }
 
 void Version::split(const std::string& input, char delimiter, std::vector<std::string>& elements)
@@ -113,5 +109,5 @@ bool Version::containsIdentifier(const std::string& identifier) const
 
 std::string Version::ToString() const
 {
-	return major->getStringValue() + "." + minor->getStringValue() + "." + build->getStringValue() + "." + revision->getStringValue();
+	return major->getStringValue() + delimiter + minor->getStringValue() + delimiter + build->getStringValue() + delimiter + revision->getStringValue();
 }

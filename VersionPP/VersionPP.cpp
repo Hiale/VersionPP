@@ -25,8 +25,9 @@ int main(int argc, char *argv[])
 	}
 	while (transformerManager->Transform(inputFile.getFileVersion(), inputFile.getCurrentFileVersion())) {
 	}
-	inputFile.setCurrentProductVersionString(inputFile.getCurrentProductVersion().ToString());
-	inputFile.setCurrentFileVersionString(inputFile.getCurrentFileVersion().ToString());
+	inputFile.replace();
+	//inputFile.setCurrentProductVersionString(inputFile.getCurrentProductVersion().ToString());
+	//inputFile.setCurrentFileVersionString(inputFile.getCurrentFileVersion().ToString());
 
 	if (!inputFile.write())
 		return 1;

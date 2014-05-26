@@ -33,5 +33,6 @@ private:
 	std::shared_ptr<VersionPart> minor;
 	std::shared_ptr<VersionPart> build;
 	std::shared_ptr<VersionPart> revision;
+	std::string delimiter;
 };
 

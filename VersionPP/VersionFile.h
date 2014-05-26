@@ -12,12 +12,11 @@ public:
 	~VersionFile();
 	bool read();
 	bool write();
+	void replace();
 	Version& getCurrentProductVersion() const;
 	Version& getCurrentFileVersion() const;
 	Version& getProductVersion() const;
 	Version& getFileVersion() const;
-	void setCurrentProductVersionString(std::string& value);
-	void setCurrentFileVersionString(std::string& value);
 private:	
 	void prepareRead();
 	bool checkVariable(std::shared_ptr<VersionFileItem>& targetItem, std::string& variableName);	

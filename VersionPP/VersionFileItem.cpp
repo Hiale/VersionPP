@@ -28,3 +28,18 @@ void VersionFileItem::setReplacementValue(std::string& value)
 	replacementValue = value;
 }
 
+std::string VersionFileItem::getOriginalValue() const
+{
+	return versionValue;
+}
+
+unsigned int VersionFileItem::getLineNumber() const
+{
+	return lineNumber;
+}
+
+unsigned int VersionFileItem::getLinePosition() const
+{
+	return linePosition;
+}
+

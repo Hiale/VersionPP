@@ -174,14 +174,21 @@ void VersionFile::throwInvalidFile() const
 	throw std::exception("Load file first or file is invalid.");
 }
 
-void VersionFile::setCurrentProductVersionString(std::string& value)
+void VersionFile::replace()
 {
-	if (currentProductVersionString)
-		currentProductVersionString->setReplacementValue("\"" + value + "\"");
-}
+	if (currentProductVersionString && currentProductVersion)
+		currentProductVersionString->setReplacementValue("\"" + currentProductVersion->getVersion().ToString() + "\"");
 
-void VersionFile::setCurrentFileVersionString(std::string& value)
-{
-	if (currentFileVersionString)
-		currentFileVersionString->setReplacementValue("\"" + value + "\"");
+	if (currentFileVersionString && currentFileVersion)
+		currentFileVersionString->setReplacementValue("\"" + currentFileVersion->getVersion().ToString() + "\"");
+
+	for (std::vector<int>::size_type i = 0; i != fileContent.size(); i++) {
+		std::map<unsigned int, std::shared_ptr<VersionFileItem>>::iterator it = lineVariableMap.find(i);
+		if (it != lineVariableMap.end())
+		{
+			//element found;
+			std::shared_ptr<VersionFileItem> versionInfo = it->second;
+			fileContent[i].replace(versionInfo->getLinePosition(), versionInfo->getOriginalValue().length(), versionInfo->getReplacementValue());
+		}
+	}
 }
