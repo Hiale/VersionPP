@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
 
 	transformerManager = std::unique_ptr<TransformerManager>(new TransformerManager);
 
-	VersionFile inputFile("S:\\Visual Studio Projects\\VersionPP\\VersionPP\\TestFile.h");
+	VersionFile inputFile("..\\TestFiles\\DotNet.h");
 	if (!inputFile.read())
 		return -1;
 
@@ -26,8 +26,6 @@ int main(int argc, char *argv[])
 	while (transformerManager->Transform(inputFile.getFileVersion(), inputFile.getCurrentFileVersion())) {
 	}
 	inputFile.replace();
-	//inputFile.setCurrentProductVersionString(inputFile.getCurrentProductVersion().ToString());
-	//inputFile.setCurrentFileVersionString(inputFile.getCurrentFileVersion().ToString());
 
 	if (!inputFile.write())
 		return 1;
