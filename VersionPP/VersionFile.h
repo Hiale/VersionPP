@@ -20,7 +20,7 @@ public:
 private:	
 	void prepareRead();
 	bool checkVariable(std::shared_ptr<VersionFileItem>& targetItem, std::string& variableName);	
-	bool createVersionFileItem(std::shared_ptr<VersionFileItem>& targetItem, std::string& variableName, std::string& versionValue, unsigned int lineNumber, unsigned int linePosition);
+	bool createVersionFileItem(std::shared_ptr<VersionFileItem>& targetItem, std::string& variableName, std::string& versionValue, unsigned int versionValueLength, unsigned int lineNumber, unsigned int linePosition);
 	void throwInvalidFile() const;
 	std::string filename;
 	std::shared_ptr<VersionFileItem> currentProductVersion;

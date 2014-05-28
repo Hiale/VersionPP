@@ -36,30 +36,31 @@ bool VersionFile::read()
 			std::string variableName = result[2];
 			std::string variableNameUpper = boost::to_upper_copy(variableName);
 			std::string versionValue = result[3];
+			unsigned int versionValueLength = result.length(3);
 			unsigned int linePosition = result.position(3);			
 
 			if (boost::starts_with(prefix, "#") && boost::iequals(variableNameUpper, "PRODUCT_VERSION")) {
-				if (!createVersionFileItem(currentProductVersion, variableName, versionValue, lineNumber, linePosition))
+				if (!createVersionFileItem(currentProductVersion, variableName, versionValue, versionValueLength, lineNumber, linePosition))
 					return false;
 			}
 			else if (boost::starts_with(prefix, "#") && boost::iequals(variableNameUpper, "FILE_VERSION")) {
-				if (!createVersionFileItem(currentFileVersion, variableName, versionValue, lineNumber, linePosition))
+				if (!createVersionFileItem(currentFileVersion, variableName, versionValue, versionValueLength, lineNumber, linePosition))
 					return false;
 			}
 			else if (boost::starts_with(prefix, "#") && boost::iequals(variableNameUpper, "PRODUCT_VERSION_STRING")) {				
-				currentProductVersionString = std::make_shared<VersionFileItem>(versionValue, lineNumber, linePosition, false);
+				currentProductVersionString = std::make_shared<VersionFileItem>(versionValue, versionValueLength, lineNumber, linePosition, false);
 				lineVariableMap.insert(std::pair<unsigned int, std::shared_ptr<VersionFileItem>>(lineNumber, currentProductVersionString));
 			}
 			else if (boost::starts_with(prefix, "#") && boost::iequals(variableNameUpper, "FILE_VERSION_STRING")) {
-				currentFileVersionString = std::make_shared<VersionFileItem>(versionValue, lineNumber, linePosition, false);
+				currentFileVersionString = std::make_shared<VersionFileItem>(versionValue, versionValueLength, lineNumber, linePosition, false);
 				lineVariableMap.insert(std::pair<unsigned int, std::shared_ptr<VersionFileItem>>(lineNumber, currentFileVersionString));
 			}
 			else if (boost::starts_with(prefix, "//") && boost::iequals(variableNameUpper, "PRODUCTVERSION")) {
-				if (!createVersionFileItem(productVersion, variableName, versionValue, lineNumber, linePosition))
+				if (!createVersionFileItem(productVersion, variableName, versionValue, versionValueLength, lineNumber, linePosition))
 					return false;
 			}
 			else if (boost::starts_with(prefix, "//") && boost::iequals(variableNameUpper, "FILEVERSION")) {
-				if (!createVersionFileItem(fileVersion, variableName, versionValue, lineNumber, linePosition))
+				if (!createVersionFileItem(fileVersion, variableName, versionValue, versionValueLength, lineNumber, linePosition))
 					return false;
 			}
 			else if (boost::starts_with(prefix, "//") && boost::iequals(variableNameUpper, "VERSION")) {
@@ -67,14 +68,14 @@ bool VersionFile::read()
 					std::cout << "The variable '" << variableName << "' is ignored because the product version is already defined." << std::endl;
 				}
 				else {
-					if (!createVersionFileItem(productVersion, variableName, versionValue, lineNumber, linePosition))
+					if (!createVersionFileItem(productVersion, variableName, versionValue, versionValueLength, lineNumber, linePosition))
 						return false;
 				}
 				if (fileVersion) {
 					std::cout << "The variable '" << variableName << "' is ignored because the file version is already defined." << std::endl;
 				}
 				else {
-					if (!createVersionFileItem(fileVersion, variableName, versionValue, lineNumber, linePosition))
+					if (!createVersionFileItem(fileVersion, variableName, versionValue, versionValueLength, lineNumber, linePosition))
 						return false;
 				}
 			}
@@ -109,10 +110,10 @@ bool VersionFile::write()
 	return true;
 }
 
-bool VersionFile::createVersionFileItem(std::shared_ptr<VersionFileItem>& targetItem, std::string& variableName, std::string& versionValue, unsigned int lineNumber, unsigned int linePosition)
+bool VersionFile::createVersionFileItem(std::shared_ptr<VersionFileItem>& targetItem, std::string& variableName, std::string& versionValue, unsigned int versionValueLength, unsigned int lineNumber, unsigned int linePosition)
 {
 	try {
-		targetItem = std::make_shared<VersionFileItem>(versionValue, lineNumber, linePosition);
+		targetItem = std::make_shared<VersionFileItem>(versionValue, versionValueLength, lineNumber, linePosition);
 		lineVariableMap.insert(std::pair<unsigned int, std::shared_ptr<VersionFileItem>>(lineNumber, targetItem));
 	}
 	catch (...) {
@@ -176,19 +177,20 @@ void VersionFile::throwInvalidFile() const
 
 void VersionFile::replace()
 {
-	if (currentProductVersionString && currentProductVersion)
-		currentProductVersionString->setReplacementValue("\"" + currentProductVersion->getVersion().ToString() + "\"");
+	currentProductVersion->setReplacementValue(productVersion->getVersion().ToString(","));
+	currentProductVersionString->setReplacementValue("\"" + productVersion->getVersion().ToString(".") + "\"");
 
-	if (currentFileVersionString && currentFileVersion)
-		currentFileVersionString->setReplacementValue("\"" + currentFileVersion->getVersion().ToString() + "\"");
+	currentFileVersion->setReplacementValue(fileVersion->getVersion().ToString(","));
+	currentFileVersionString->setReplacementValue("\"" + fileVersion->getVersion().ToString(".") + "\"");
 
 	for (std::vector<int>::size_type i = 0; i != fileContent.size(); i++) {
 		std::map<unsigned int, std::shared_ptr<VersionFileItem>>::iterator it = lineVariableMap.find(i);
 		if (it != lineVariableMap.end())
 		{
-			//element found;
 			std::shared_ptr<VersionFileItem> versionInfo = it->second;
-			fileContent[i].replace(versionInfo->getLinePosition(), versionInfo->getOriginalValue().length(), versionInfo->getReplacementValue());
+			if (versionInfo->getReplacementValue() == "" || versionInfo->getReplacementValue() == versionInfo->getOriginalValue())
+				continue;
+			fileContent[i].replace(versionInfo->getLinePosition(), versionInfo->getOriginalValueLength(), versionInfo->getReplacementValue());
 		}
 	}
 }

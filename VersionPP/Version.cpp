@@ -70,6 +70,7 @@ void Version::setRevision(const VersionPart& value)
 void Version::parse(const std::string& str)
 {
 	std::vector<std::string> elements;
+	std::string delimiter;
 	if (str.find(".") != std::string::npos)
 		delimiter = ".";
 	else if (str.find(",") != std::string::npos)
@@ -107,7 +108,7 @@ bool Version::containsIdentifier(const std::string& identifier) const
 			(revision && revision->getStringValue().find(identifier) != std::string::npos);
 }
 
-std::string Version::ToString() const
+std::string Version::ToString(std::string delimiter) const
 {
 	return major->getStringValue() + delimiter + minor->getStringValue() + delimiter + build->getStringValue() + delimiter + revision->getStringValue();
 }

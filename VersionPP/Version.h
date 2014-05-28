@@ -15,7 +15,7 @@ public:
 	Version(const unsigned int major, const unsigned int minor);
 	Version(const unsigned int major);
 	virtual ~Version();
-	std::string ToString() const;
+	std::string ToString(std::string delimiter) const;
 	VersionPart& getMajor() const;
 	void setMajor(const VersionPart& value);
 	VersionPart& getMinor() const;
@@ -33,6 +33,5 @@ private:
 	std::shared_ptr<VersionPart> minor;
 	std::shared_ptr<VersionPart> build;
 	std::shared_ptr<VersionPart> revision;
-	std::string delimiter;
 };
 
