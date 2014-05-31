@@ -7,6 +7,7 @@ class IncrementTransformer : public Transformer
 public:
 	IncrementTransformer();
 	virtual ~IncrementTransformer();
+	virtual std::string getName() const = 0;
 	virtual std::string getIdentifier() const = 0;
 	virtual bool Transform(Version& version, const Version& currentVersion);
 private:

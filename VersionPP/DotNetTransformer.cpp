@@ -16,6 +16,11 @@ DotNetTransformer::~DotNetTransformer()
 
 }
 
+std::string DotNetTransformer::getName() const
+{
+	return ".NET";
+}
+
 std::string DotNetTransformer::getIdentifier() const
 {
 	return "*";
@@ -23,12 +28,19 @@ std::string DotNetTransformer::getIdentifier() const
 
 bool DotNetTransformer::Transform(Version& version, const Version& currentVersion)
 {
+	if (version.getMajor().getStringValue().find(getIdentifier()) != std::string::npos || version.getMinor().getStringValue().find(getIdentifier()) != std::string::npos)
+		throw std::exception("Only build or revision parts may contain a *.");
 	boost::posix_time::ptime now = boost::posix_time::second_clock::local_time();
 	unsigned int build = 0;
 	unsigned int revision = 0;
 	CalculateBuildRevision(now, build, revision);
 	if (replaceIdentifier(version.getBuild(), std::to_string(build)))
-		version.getRevision().setStringValue(std::to_string(revision));
+	{
+		if (version.getRevision().isFinal())
+			version.getRevision().setStringValue(std::to_string(revision));
+		else if (version.getRevision().getStringValue().find(getIdentifier()) != std::string::npos)
+			replaceIdentifier(version.getRevision(), std::to_string(revision));
+	}
 	return true;
 }
 

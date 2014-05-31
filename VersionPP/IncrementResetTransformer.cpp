@@ -10,6 +10,11 @@ IncrementResetTransformer::~IncrementResetTransformer()
 {
 }
 
+std::string IncrementResetTransformer::getName() const
+{
+	return "Increment with reset";
+}
+
 std::string IncrementResetTransformer::getIdentifier() const
 {
 	return "+";

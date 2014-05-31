@@ -11,6 +11,7 @@ class DotNetTransformer : public Transformer
 public:
 	DotNetTransformer();
 	~DotNetTransformer();
+	virtual std::string getName() const;
 	virtual std::string getIdentifier() const;
 	virtual bool Transform(Version& version, const Version& currentVersion);
 private:

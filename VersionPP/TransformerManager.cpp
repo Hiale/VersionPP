@@ -19,8 +19,16 @@ bool TransformerManager::Transform(Version& version, const Version& currentVersi
 	for (const std::unique_ptr<Transformer>& transformer : items) {
 		if (!version.containsIdentifier(transformer->getIdentifier()))
 			continue;
-		if (transformer->Transform(version, currentVersion))
-			processed = true;
+		try
+		{
+			if (transformer->Transform(version, currentVersion))
+				processed = true;
+		}
+		catch (std::exception& e)
+		{
+			std::cout << "Error:" << std::endl << "Transformer: " << transformer->getName() << std::endl << "Version: " << version.ToString(".") << std::endl << e.what() << std::endl;
+		}
+		
 	}
 	return processed;
 }

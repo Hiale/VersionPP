@@ -6,7 +6,8 @@ class Transformer
 {
 public:
 	virtual ~Transformer();
-	virtual std::string getIdentifier() const = 0;
+	virtual std::string getName() const = 0;
+	virtual std::string getIdentifier() const = 0;	
 	virtual bool Transform(Version& version, const Version& currentVersion) = 0;	
 protected:
 	bool identifierFound(VersionPart& versionPart);

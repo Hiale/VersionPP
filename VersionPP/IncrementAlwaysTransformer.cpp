@@ -11,6 +11,11 @@ IncrementAlwaysTransformer::~IncrementAlwaysTransformer()
 
 }
 
+std::string IncrementAlwaysTransformer::getName() const
+{
+	return "Increment always";
+}
+
 std::string IncrementAlwaysTransformer::getIdentifier() const
 {
 	return "^";

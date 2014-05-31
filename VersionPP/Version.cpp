@@ -75,10 +75,10 @@ void Version::parse(const std::string& str)
 		delimiter = ".";
 	else if (str.find(",") != std::string::npos)
 		delimiter = ",";
+	if (delimiter != "")
+		split(str, delimiter[0], elements);
 	else
-		throw std::exception("Not a valid version format.");
-	split(str, delimiter[0], elements);
-
+		elements.push_back(str == "" ? "1" : str);
 	while (elements.size() < 4)
 		elements.push_back("0");
 	setMajor(VersionPart(elements.at(0)));
