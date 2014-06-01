@@ -24,7 +24,7 @@ bool VersionFile::read()
 		return false;
 	prepareRead();
 	std::string line;
-	std::regex pattern("(#[^\\S\\n]*define|\\/\\/)[^\\S\\n]([^\\s]+)[^\\S\\n]+([^\\s]+)", std::regex_constants::icase);
+	std::regex pattern("(#[^\\S\\n]*define|\\/\\/)[^\\S\\n]*([^\\s]+)[^\\S\\n]+([^\\s]+)", std::regex_constants::icase);
 	unsigned int lineNumber = 0;
 	while (std::getline(file, line))
 	{
@@ -103,9 +103,7 @@ bool VersionFile::write()
 		return false;
 
 	for (std::vector<std::string>::size_type i = 0; i != fileContent.size(); i++) {
-		file << fileContent[i];
-		if (i < fileContent.size() - 1)
-			file << std::endl;
+		file << fileContent[i] << std::endl;
 	}
 	return true;
 }
@@ -117,7 +115,7 @@ bool VersionFile::createVersionFileItem(std::shared_ptr<VersionFileItem>& target
 		lineVariableMap.insert(std::pair<unsigned int, std::shared_ptr<VersionFileItem>>(lineNumber, targetItem));
 	}
 	catch (...) {
-		std::cout << "Variable " << variableName << " has an invalid format.";
+		std::cout << "Variable " << variableName << " has an invalid format." << std::endl;
 		return false;
 	}
 	return true;
@@ -136,7 +134,7 @@ void VersionFile::prepareRead()
 bool VersionFile::checkVariable(std::shared_ptr<VersionFileItem>& targetItem, std::string& variableName)
 {
 	if (!targetItem) {
-		std::cout << "The variable " << variableName << " is not defined.";
+		std::cout << "The variable " << variableName << " is not defined." << std::endl;
 		return false;
 	}
 	return true;

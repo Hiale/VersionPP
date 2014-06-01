@@ -39,15 +39,18 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 
+	std::cout << "Analyzing file..." << std::endl;
 	while (transformerManager->Transform(inputFile.getProductVersion(), inputFile.getCurrentProductVersion())) {
 	}
 	while (transformerManager->Transform(inputFile.getFileVersion(), inputFile.getCurrentFileVersion())) {
 	}
 	inputFile.replace();
 
+	std::cout << "Writing..." << std::endl;
 	if (!inputFile.write())
 		return 1;
 
+	std::cout << "Successful!" << std::endl;
 	return 0;
 }
 

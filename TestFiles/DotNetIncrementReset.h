@@ -3,5 +3,5 @@
 #define FILE_VERSION_STRING		"1.2.3.4"
 #define PRODUCT_VERSION_STRING	"4.3.2.1"
 
-// ProductVersion 1.+.*.4
-// FileVersion 4.3.*.+
+//ProductVersion 1.+.*.4
+//FileVersion 4.3.*.+
