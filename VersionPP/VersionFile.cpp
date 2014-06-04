@@ -175,10 +175,10 @@ void VersionFile::throwInvalidFile() const
 
 void VersionFile::replace()
 {
-	currentProductVersion->setReplacementValue(productVersion->getVersion().ToString(","));
+	currentProductVersion->setReplacementValue(productVersion->getVersion().ToStrictString(","));
 	currentProductVersionString->setReplacementValue("\"" + productVersion->getVersion().ToString(".") + "\"");
 
-	currentFileVersion->setReplacementValue(fileVersion->getVersion().ToString(","));
+	currentFileVersion->setReplacementValue(fileVersion->getVersion().ToStrictString(","));
 	currentFileVersionString->setReplacementValue("\"" + fileVersion->getVersion().ToString(".") + "\"");
 
 	for (std::vector<int>::size_type i = 0; i != fileContent.size(); i++) {

@@ -1,15 +1,14 @@
 #pragma once
 
-#include "IncrementTransformer.h"
+#include "Transformer.h"
 
-class IncrementResetTransformer : public IncrementTransformer
+class IncrementResetTransformer : public Transformer
 {
 public:
 	IncrementResetTransformer();
 	virtual ~IncrementResetTransformer();
 	virtual std::string getName() const;
 	virtual std::string getIdentifier() const;
-private:
-	inline void processPart(VersionPart& newPart, VersionPart& currentPart, VersionPart& priorPart, VersionPart& currentPriorPart);
+	virtual bool Transform(Version& version, const Version& currentVersion);
 };
 

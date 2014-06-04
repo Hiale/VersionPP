@@ -5,19 +5,20 @@
 class VersionPart
 {
 public:
+	VersionPart();
 	VersionPart(const std::string& value);
 	VersionPart(const unsigned int value);
 	virtual ~VersionPart();
-	unsigned int getFinalValue() const;	
+	bool hasIntegerValue() const;
+	unsigned int getIntegerValue() const;	
 	std::string getStringValue() const;
-	void setStringValue(const std::string& value);
-	bool isFinal() const;
+	void setStringValue(const std::string& value);	
 private:
-	void setFinalValue(const unsigned int value);
+	void setIntegerValue(const unsigned int value);
 	static bool isNumber(const std::string& str);
 	static unsigned int getNumber(const std::string& str);
-	unsigned int finalValue;
+	unsigned int intValue;
 	std::string stringValue;
-	bool final;
+	bool hasIntValue;
 };
 

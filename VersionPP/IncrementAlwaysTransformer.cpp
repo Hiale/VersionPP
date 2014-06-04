@@ -21,7 +21,17 @@ std::string IncrementAlwaysTransformer::getIdentifier() const
 	return "^";
 }
 
-void IncrementAlwaysTransformer::processPart(VersionPart& newPart, VersionPart& currentPart, VersionPart& priorPart, VersionPart& currentPriorPart)
+bool IncrementAlwaysTransformer::Transform(Version& version, const Version& currentVersion)
 {
-	replaceIdentifier(newPart, std::to_string(currentPart.getFinalValue() + 1));
+	processPart(version.getMajor(), currentVersion.getMajor());
+	processPart(version.getMinor(), currentVersion.getMinor());
+	processPart(version.getBuild(), currentVersion.getBuild());
+	processPart(version.getRevision(), currentVersion.getRevision());
+	return true;
+}
+
+void IncrementAlwaysTransformer::processPart(VersionPart& newPart, VersionPart& currentPart)
+{
+	if (identifierFound(newPart))
+		replaceIdentifier(newPart, std::to_string(currentPart.getIntegerValue() + 1));
 }

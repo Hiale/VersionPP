@@ -79,12 +79,19 @@ void Version::parse(const std::string& str)
 		split(str, delimiter[0], elements);
 	else
 		elements.push_back(str == "" ? "1" : str);
-	while (elements.size() < 4)
-		elements.push_back("0");
 	setMajor(VersionPart(elements.at(0)));
-	setMinor(VersionPart(elements.at(1)));
-	setBuild(VersionPart(elements.at(2)));
-	setRevision(VersionPart(elements.at(3)));
+	if (elements.size() > 1)
+		setMinor(VersionPart(elements.at(1)));
+	else
+		setMinor(VersionPart());
+	if (elements.size() > 2)
+		setBuild(VersionPart(elements.at(2)));
+	else
+		setBuild(VersionPart());
+	if (elements.size() > 3)
+		setRevision(VersionPart(elements.at(3)));
+	else
+		setRevision(VersionPart());
 }
 
 void Version::split(const std::string& input, char delimiter, std::vector<std::string>& elements)
@@ -93,11 +100,6 @@ void Version::split(const std::string& input, char delimiter, std::vector<std::s
 	std::string item;
 	while (std::getline(stringStream, item, delimiter))
 		elements.push_back(item);
-}
-
-bool Version::isFinished()
-{
-	return major && major->isFinal() && minor && minor->isFinal() && build && build->isFinal() && revision && revision->isFinal();
 }
 
 bool Version::containsIdentifier(const std::string& identifier) const
@@ -111,4 +113,9 @@ bool Version::containsIdentifier(const std::string& identifier) const
 std::string Version::ToString(std::string delimiter) const
 {
 	return major->getStringValue() + delimiter + minor->getStringValue() + delimiter + build->getStringValue() + delimiter + revision->getStringValue();
+}
+
+std::string Version::ToStrictString(std::string delimiter) const
+{
+	return std::to_string(major->getIntegerValue()) + delimiter + std::to_string(minor->getIntegerValue()) + delimiter + std::to_string(build->getIntegerValue()) + delimiter + std::to_string(revision->getIntegerValue());
 }

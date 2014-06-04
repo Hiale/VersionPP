@@ -16,6 +16,7 @@ public:
 	Version(const unsigned int major);
 	virtual ~Version();
 	std::string ToString(std::string delimiter) const;
+	std::string ToStrictString(std::string delimiter) const;
 	VersionPart& getMajor() const;
 	void setMajor(const VersionPart& value);
 	VersionPart& getMinor() const;
@@ -28,7 +29,6 @@ public:
 private:
 	void parse(const std::string& str);
 	static void split(const std::string& input, char delimiter, std::vector<std::string>& elements);
-	bool isFinished();
 	std::shared_ptr<VersionPart> major;
 	std::shared_ptr<VersionPart> minor;
 	std::shared_ptr<VersionPart> build;

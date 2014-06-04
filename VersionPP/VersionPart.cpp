@@ -4,7 +4,7 @@
 #include <cctype>
 
 
-VersionPart::VersionPart(const std::string& value) : final(false), finalValue(0)
+VersionPart::VersionPart(const std::string& value) : hasIntValue(false), intValue(0)
 {
 	setStringValue(value);
 }
@@ -12,7 +12,11 @@ VersionPart::VersionPart(const std::string& value) : final(false), finalValue(0)
 VersionPart::VersionPart(const unsigned int value)
 {
 	stringValue = std::to_string(value);
-	setFinalValue(value);
+	setIntegerValue(value);
+}
+
+VersionPart::VersionPart() : VersionPart("")
+{
 }
 
 VersionPart::~VersionPart()
@@ -20,15 +24,15 @@ VersionPart::~VersionPart()
 
 }
 
-unsigned int VersionPart::getFinalValue() const
+unsigned int VersionPart::getIntegerValue() const
 {
-	return finalValue;
+	return intValue;
 }
 
-void VersionPart::setFinalValue(const unsigned int value)
+void VersionPart::setIntegerValue(const unsigned int value)
 {
-	finalValue = value;
-	final = true;
+	intValue = value;
+	hasIntValue = true;
 }
 
 std::string VersionPart::getStringValue() const
@@ -40,12 +44,16 @@ void VersionPart::setStringValue(const std::string& value)
 {
 	stringValue = value;
 	if (isNumber(value))
-		setFinalValue(getNumber(stringValue));
+		setIntegerValue(getNumber(stringValue));
+	else
+		hasIntValue = false;
+	if (value == "")
+		setIntegerValue(0);
 }
 
-bool VersionPart::isFinal() const
+bool VersionPart::hasIntegerValue() const
 {
-	return final;
+	return hasIntValue;
 }
 
 bool VersionPart::isNumber(const std::string& str)
