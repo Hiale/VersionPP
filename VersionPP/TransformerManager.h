@@ -10,7 +10,7 @@ class TransformerManager
 public:
 	TransformerManager();
 	~TransformerManager();
-	bool Transform(Version& version, const Version& currentVersion);
+	void Transform(Version& version, const Version& currentVersion);
 private:
 	void load();
 	std::vector<std::unique_ptr<Transformer>> items;

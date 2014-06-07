@@ -40,10 +40,8 @@ int main(int argc, char *argv[])
 	}
 
 	std::cout << "Analyzing file..." << std::endl;
-	while (transformerManager->Transform(inputFile.getProductVersion(), inputFile.getCurrentProductVersion())) {
-	}
-	while (transformerManager->Transform(inputFile.getFileVersion(), inputFile.getCurrentFileVersion())) {
-	}
+	transformerManager->Transform(inputFile.getProductVersion(), inputFile.getCurrentProductVersion());
+	transformerManager->Transform(inputFile.getFileVersion(), inputFile.getCurrentFileVersion());
 	inputFile.replace();
 
 	std::cout << "Writing..." << std::endl;

@@ -13,24 +13,27 @@ TransformerManager::~TransformerManager()
 {
 }
 
-bool TransformerManager::Transform(Version& version, const Version& currentVersion)
+void TransformerManager::Transform(Version& version, const Version& currentVersion)
 {
-	bool processed = false; //at least one transformer processed the version.
-	for (const std::unique_ptr<Transformer>& transformer : items) {
-		if (!version.containsIdentifier(transformer->getIdentifier()))
-			continue;
-		try
-		{
-			if (transformer->Transform(version, currentVersion))
-				processed = true;
+	bool processed;
+	do
+	{
+		processed = false;
+		for (const std::unique_ptr<Transformer>& transformer : items) {
+			if (!version.containsIdentifier(transformer->getIdentifier()))
+				continue;
+			try
+			{
+				if (transformer->Transform(version, currentVersion))
+					processed = true;
+			}
+			catch (std::exception& e)
+			{
+				std::cout << "Error:" << std::endl << "Transformer: " << transformer->getName() << std::endl << "Version: " << version.ToString(".") << std::endl << e.what() << std::endl;
+			}
+
 		}
-		catch (std::exception& e)
-		{
-			std::cout << "Error:" << std::endl << "Transformer: " << transformer->getName() << std::endl << "Version: " << version.ToString(".") << std::endl << e.what() << std::endl;
-		}
-		
-	}
-	return processed;
+	} while (processed);
 }
 
 void TransformerManager::load()
