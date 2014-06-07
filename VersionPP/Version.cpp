@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "Version.h"
-#include "VersionPP.h"
 
 Version::Version(const std::string& str)
 {
