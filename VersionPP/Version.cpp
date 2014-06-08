@@ -111,7 +111,10 @@ bool Version::containsIdentifier(const std::string& identifier) const
 
 std::string Version::ToString(std::string delimiter) const
 {
-	return major->getStringValue() + delimiter + minor->getStringValue() + delimiter + build->getStringValue() + delimiter + revision->getStringValue();
+	return major->getStringValue()
+		+ (minor->getStringValue() == "" ? "" : delimiter + minor->getStringValue())
+		+ (build->getStringValue() == "" ? "" : delimiter + build->getStringValue())
+		+ (revision->getStringValue() == "" ? "" : delimiter + revision->getStringValue());
 }
 
 std::string Version::ToStrictString(std::string delimiter) const
