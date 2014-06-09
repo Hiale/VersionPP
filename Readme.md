@@ -9,22 +9,25 @@ Version++ can be used to automatically create version information in C++ applica
 How does it work?
 -----------------
 
-It alters a header file before compiling. After you created a header file (see below), execute this application
-with the header file to update it.
+It alters a header file before compiling:
+After you created a header file (see below), execute this application with the header file as argument to update it.
 
 Example:
 VersionPP.exe "C:\dev\proj\version.h"
 
+The application will update the version inside this header file. A Resource file gets the information from here and writes it to its VersionInfo block.
+The file properties will show the updated version after the compilation.
+
 How can I use it?
 -----------------
 
-Option A
+Option A (using included template)
 1. Add VersionInfo.rc from the Template directory to your project.
 2. Change CompanyName, FileDescription, LegalCopyright, ProductName to your needs.
 3. Add VersionNo.h to your project.
-3. Change the variable(s) in VersionNo.h accordantly. (see below)
+3. Change the variable(s) in VersionNo.h accordantly (see below).
 
-Option B 
+Option B (without using included template)
 1. Add a new Resource to the project, select Version in the dialog.
 2. Open the newly created file in text view (View Code).
 3. Replace several values to variables:
@@ -39,15 +42,15 @@ PRODUCTVERSION PRODUCT_VERSION
 VALUE "FileVersion", FILE_VERSION_STRING
 VALUE "ProductVersion", PRODUCT_VERSION_STRING
 
-4. Add #include "VersionNo.h" (or any other header file name) on top of the file.
-5. Add a new header file to your project. Name it like in step 4.
+4. Add #include "VersionNo.h" (or any other header file name) to top of the file.
+5. Add a new header file to your project. Name it like as you did in step 4.
 6. Copy the content from VersionNo.h in the template directory to your new file.
-7. Change the variable(s) in accordantly. (see below)
+7. Change the variable(s) in accordantly (see below).
 
 How to use the header file?
 ---------------------------
 
-In the header are one or two variables which need to changed. Either:
+In the header are one or two variables which need to be changed. Either:
 // ProductVersion 1.0.*.+
 // FileVersion 1.0.*.+
 OR
@@ -75,9 +78,19 @@ Increases the value by one each time the application gets executed. Resets the v
 ^
 Same as +, but it does not reset.
 
+Why does this application not update the Resource file instead?
+---------------------------------------------------------------
+
+This would also work. However using a header file first, the application itself can also get the version information. Just include the header and access the variable.
+
 How to build
 ------------
 
 1. Open the solution in Visual Studio 2013, other C++ 11 compilers might work as well.
 2. Add boost (http://www.boost.org/) to your include directory. No need to compile the libraries, headers are sufficient.
 3. The project should build.
+
+Future Improvements
+-------------------
+
+Patch Resource files automatically.
