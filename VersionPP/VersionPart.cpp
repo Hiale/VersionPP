@@ -47,8 +47,6 @@ void VersionPart::setStringValue(const std::string& value)
 		setIntegerValue(getNumber(stringValue));
 	else
 		hasIntValue = false;
-	if (value == "")
-		setIntegerValue(0);
 }
 
 bool VersionPart::hasIntegerValue() const

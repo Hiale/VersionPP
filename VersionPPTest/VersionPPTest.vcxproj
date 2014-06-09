@@ -88,6 +88,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DotNetTransformerTest.cpp" />
+    <ClCompile Include="IncrementAlwaysTransformerTest.cpp" />
+    <ClCompile Include="IncrementResetTransformerTest.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

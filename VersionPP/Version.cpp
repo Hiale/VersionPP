@@ -14,13 +14,32 @@ Version::Version(const unsigned int major, const unsigned int minor, const unsig
 	setRevision(VersionPart(revision));
 }
 
-Version::Version(const unsigned int major, const unsigned int minor, const unsigned int build) : Version(major, minor, build, 0) { }
+Version::Version(const unsigned int major, const unsigned int minor, const unsigned int build)
+{
+	setMajor(VersionPart(major));
+	setMinor(VersionPart(minor));
+	setBuild(VersionPart(build));
+	setRevision(VersionPart());
+}
 
-Version::Version(const unsigned int major, const unsigned int minor) : Version(major, minor, 0) { }
+Version::Version(const unsigned int major, const unsigned int minor) 
+{
+	setMajor(VersionPart(major));
+	setMinor(VersionPart(minor));
+	setBuild(VersionPart());
+	setRevision(VersionPart());
+}
 
-Version::Version(const unsigned int major) : Version(major, 0) { }
+Version::Version(const unsigned int major) : Version(major, 0)
+{
+	setMajor(VersionPart(major));
+	setMinor(VersionPart());
+	setBuild(VersionPart());
+	setRevision(VersionPart());
+}
 
-Version::Version() : Version(0) { }
+Version::Version() : Version(1) { }
+
 
 Version::~Version()
 {

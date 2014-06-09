@@ -32,5 +32,11 @@
     <ClCompile Include="VersionTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="IncrementResetTransformerTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IncrementAlwaysTransformerTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
