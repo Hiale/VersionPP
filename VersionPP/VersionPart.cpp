@@ -65,7 +65,7 @@ unsigned int VersionPart::getNumber(const std::string& str)
 	{
 		return std::stoul(str);
 	}
-	catch (std::exception& e)
+	catch (...)
 	{
 		return 0;
 	}

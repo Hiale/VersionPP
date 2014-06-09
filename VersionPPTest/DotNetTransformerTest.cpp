@@ -60,8 +60,6 @@ namespace VersionPPTest
 			Assert::AreEqual<std::string>("3", version.getBuild().getStringValue());
 			Assert::AreEqual<std::string>("4", version.getRevision().getStringValue());
 		}
-
-
 	};
 	std::unique_ptr<TransformerManager> DotNetTransformerTest::transformerManager;
 }

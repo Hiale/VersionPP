@@ -7,6 +7,7 @@
 #include <fstream>
 #include <iostream>
 #include <memory>
+#include "VersionNo.h"
 
 bool fileExists(const std::string& filename);
 
@@ -14,7 +15,7 @@ std::unique_ptr<TransformerManager> transformerManager;
 
 int main(int argc, char *argv[])
 {
-	std::cout << "Version++, Version 0.5" << std::endl << "Copyright © 2014 Hiale" << std::endl;
+	std::cout << "Version++, Version " << PRODUCT_VERSION_STRING << std::endl << "Copyright © 2014 Hiale" << std::endl;
 
 	if (argc < 2) {
 		std::cout << "Usage: \"" << argv[0] << "\" \"<filename.h>\"" << std::endl;
@@ -27,9 +28,8 @@ int main(int argc, char *argv[])
 
 	std::string filename(argv[1]);
 	if (!fileExists(filename)) {
-		std::cout << "File \"" << filename << "\" does not exist. Creating template..." << std::endl;
-		//ToDo
-		return 0;
+		std::cout << "File \"" << filename << "\" does not exist." << std::endl;
+		return 1;
 	}
 	std::cout << "Reading \"" << filename << "\"..." << std::endl;
 
