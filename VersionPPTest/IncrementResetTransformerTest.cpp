@@ -13,7 +13,7 @@ namespace VersionPPTest
 	public:
 		TEST_CLASS_INITIALIZE(Init)
 		{
-			transformerManager = std::unique_ptr<TransformerManager>(new TransformerManager);
+			transformerManager = std::make_unique<TransformerManager>();
 		}
 
 		TEST_METHOD(IncrementResetTransformerMajor)

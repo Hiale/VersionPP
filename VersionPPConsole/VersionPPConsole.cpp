@@ -15,7 +15,7 @@ std::unique_ptr<TransformerManager> transformerManager;
 
 int main(int argc, char *argv[])
 {
-	std::cout << "Version++, Version " << PRODUCT_VERSION_STRING << std::endl << "Copyright © 2014 Hiale" << std::endl;
+	std::cout << "Version++, Version " << PRODUCT_VERSION_STRING << std::endl << "Copyright © 2014 - 2016 Hiale" << std::endl;
 
 	if (argc < 2) {
 		std::cout << "Usage: \"" << argv[0] << "\" \"<filename.h>\"" << std::endl;
@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
 	}
 	std::cout << "Reading \"" << filename << "\"..." << std::endl;
 
-	transformerManager = std::unique_ptr<TransformerManager>(new TransformerManager);
+	transformerManager = std::make_unique<TransformerManager>();
 
 	VersionFile inputFile(argv[1]);
 	if (!inputFile.read()) {

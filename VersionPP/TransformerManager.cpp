@@ -38,7 +38,7 @@ void TransformerManager::Transform(Version& version, const Version& currentVersi
 
 void TransformerManager::load()
 {
-	items.push_back(std::unique_ptr<Transformer>(new DotNetTransformer));
-	items.push_back(std::unique_ptr<Transformer>(new IncrementResetTransformer));
-	items.push_back(std::unique_ptr<Transformer>(new IncrementAlwaysTransformer));
+	items.push_back(std::unique_ptr<Transformer>(std::make_unique<DotNetTransformer>()));
+	items.push_back(std::unique_ptr<Transformer>(std::make_unique<IncrementResetTransformer>()));
+	items.push_back(std::unique_ptr<Transformer>(std::make_unique<IncrementAlwaysTransformer>()));
 }

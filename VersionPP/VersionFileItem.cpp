@@ -8,7 +8,7 @@ VersionFileItem::VersionFileItem(std::string& versionValue, unsigned int version
 VersionFileItem::VersionFileItem(std::string& versionValue, unsigned int versionValueLength, unsigned int lineNumber, unsigned int linePosition, bool createVersion) : versionValue(versionValue), versionValueLength(versionValueLength), lineNumber(lineNumber), linePosition(linePosition)
 {
 	if (createVersion)
-		version = std::unique_ptr<Version>(new Version(versionValue));
+		version = std::make_unique<Version>(versionValue);
 }
 
 Version& VersionFileItem::getVersion() const

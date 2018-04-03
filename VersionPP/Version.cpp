@@ -62,7 +62,7 @@ VersionPart& Version::getMinor() const
 
 void Version::setMinor(const VersionPart& value)
 {
-	minor = std::unique_ptr<VersionPart>(new VersionPart(value));
+	minor = std::make_unique<VersionPart>(value);
 }
 
 VersionPart& Version::getBuild() const
@@ -72,7 +72,7 @@ VersionPart& Version::getBuild() const
 
 void Version::setBuild(const VersionPart& value)
 {
-	build = std::unique_ptr<VersionPart>(new VersionPart(value));
+	build = std::make_unique<VersionPart>(value);
 }
 
 VersionPart& Version::getRevision() const
@@ -82,7 +82,7 @@ VersionPart& Version::getRevision() const
 
 void Version::setRevision(const VersionPart& value)
 {
-	revision = std::unique_ptr<VersionPart>(new VersionPart(value));
+	revision = std::make_unique<VersionPart>(value);
 }
 
 void Version::parse(const std::string& str)
